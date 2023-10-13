@@ -1,7 +1,9 @@
-import React from 'react';
+import { useParams } from 'react-router';
 
 const OneMovie = () => {
-  return <div></div>;
+  const { movieId } = useParams();
+
+  return <div>{movieId}</div>;
 };
 
 export default OneMovie;
