@@ -7,6 +7,7 @@ const Navbar = () => {
       <nav>
         <NavLink to='/'>Home</NavLink>
         <NavLink to='all-movies'>Movies</NavLink>
+        <NavLink to='form'>Add movie</NavLink>
       </nav>
     </header>
   );
