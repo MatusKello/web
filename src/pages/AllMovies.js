@@ -7,10 +7,8 @@ const AllMovies = () => {
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    projectFirestore
-      .collection('movies')
-      .get()
-      .then((snapshot) => {
+    const unsubscribe = projectFirestore.collection('movies').onSnapshot(
+      (snapshot) => {
         if (snapshot.empty) {
           setError('No movies found');
         } else {
@@ -20,11 +18,17 @@ const AllMovies = () => {
           });
           setData(result);
         }
-      })
-      .catch((err) => {
+      },
+      (err) => {
         setError(err.message);
-      });
+      }
+    );
+    return () => unsubscribe();
   }, []);
+
+  const deleteMovie = (id) => {
+    projectFirestore.collection('movies').doc(id).delete();
+  };
 
   return (
     <div>
@@ -35,6 +39,9 @@ const AllMovies = () => {
           <div key={id}>
             <h2>{title}</h2>
             <Link to={`/one-movie/${id}`}>More info</Link>
+            <button type='button' onClick={() => deleteMovie(id)}>
+              Delete
+            </button>
           </div>
         );
       })}
